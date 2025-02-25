@@ -1,6 +1,5 @@
 import { useState, useRef } from "react"; // Add useRef import
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+
 import "./App.css";
 import SplitText from "./TextAnimations/SplitText/SplitText";
 import Aurora from "./Backgrounds/Aurora/Aurora";
