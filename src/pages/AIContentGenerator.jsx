@@ -16,16 +16,16 @@ export default function AIContentGenerator() {
   const [content, setContent] = useState("");
   const [generatedCaption, setGeneratedCaption] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
-  const [style, setStyle] = useState("professional");
+  const [style, setStyle] = useState("promotional");
   const [copied, setCopied] = useState(false);
 
   // Styles for the caption generator
   const captionStyles = [
+    { value: "promotional", label: "Promotional" },
     { value: "professional", label: "Professional" },
     { value: "casual", label: "Casual" },
     { value: "humorous", label: "Humorous" },
     { value: "inspirational", label: "Inspirational" },
-    { value: "promotional", label: "Promotional" },
   ];
 
   // Generate caption using OpenAI SDK
@@ -35,17 +35,35 @@ export default function AIContentGenerator() {
     setIsGenerating(true);
 
     try {
+      // Get style-specific instructions
+      const styleInstructions = {
+        promotional:
+          "Use persuasive, exciting language that creates urgency and highlights benefits. Include calls-to-action.",
+        professional:
+          "Use formal, polished language with industry-specific terminology. Maintain a respectful, authoritative tone.",
+        casual:
+          "Use relaxed, conversational language with a friendly tone. Write as if talking to a friend.",
+        humorous:
+          "Use playful, witty language with puns, jokes, or light sarcasm. Keep it fun and entertaining.",
+        inspirational:
+          "Use uplifting, motivational language that inspires action. Include positive messaging and encouragement.",
+      };
+
       // Use the OpenAI SDK instead of fetch
       const completion = await openai.chat.completions.create({
-        model: "gpt-3.5-turbo",
+        model: "gpt-4o-mini",
         messages: [
           {
             role: "system",
-            content: `You are a caption generator that creates engaging ${style} style captions for social media.`,
+            content: `You are the best caption producer for social media. Create ${style} style captions with relevant emojis related to the content.`,
           },
           {
             role: "user",
-            content: `Create a ${style} caption for this content: ${content}. Include relevant hashtags.`,
+            content: `Create a ${style} caption for: ${content}
+            
+            Style guide: ${styleInstructions[style]}
+            
+            Include related emojis throughout the text. but do not make it super long`,
           },
         ],
       });
@@ -54,23 +72,11 @@ export default function AIContentGenerator() {
     } catch (error) {
       console.error("Error generating caption:", error);
 
-      // Fallback to client-side generation if API fails
-      const stylePrefixes = {
-        professional: "Elevate your professional presence with ",
-        casual: "Just hanging out with ",
-        humorous: "Who needs perfection when you've got ",
-        inspirational: "Embrace the journey and discover ",
-        promotional: "Don't miss out on our amazing ",
-      };
-
-      const prefix = stylePrefixes[style] || "";
-      const words = content.split(" ");
+      // Simple fallback - just return the content if API fails
       const shortenedContent =
-        words.slice(0, 8).join(" ") + (words.length > 8 ? "..." : "");
+        content.length > 100 ? content.substring(0, 100) + "..." : content;
 
-      setGeneratedCaption(
-        `${prefix}${shortenedContent} #caption #${style}content #trending`
-      );
+      setGeneratedCaption(shortenedContent);
     } finally {
       setIsGenerating(false);
     }
@@ -114,9 +120,7 @@ export default function AIContentGenerator() {
       </div>
       <Navbar />
 
-      {/* Logo with home link */}
-
-      <div className="relative z-10 container mx-auto px-4  pb-16">
+      <div className="relative z-10 container mx-auto px-4 pb-16">
         <div className="max-w-3xl mx-auto">
           <div className="mb-8 text-center">
             <GradientText
@@ -208,7 +212,7 @@ export default function AIContentGenerator() {
                   </button>
                 </div>
               </div>
-              <div className="bg-black/50 rounded-lg p-4 border border-white/10">
+              <div className="bg-black/50 rounded-lg p-4 border border-white/10 whitespace-pre-line">
                 <p className="text-gray-200">{generatedCaption}</p>
               </div>
             </div>
