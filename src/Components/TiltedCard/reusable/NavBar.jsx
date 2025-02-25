@@ -5,7 +5,7 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navItems = [
-    { name: "about", href: "/about" },
+    { name: "About", href: "/about" },
 
     { name: "Feedback", href: "/Feedback" },
   ];
@@ -65,14 +65,17 @@ const Navbar = () => {
               <a
                 key={item.name}
                 href={item.href}
-                className="text-gray-300 hover:text-white block px-3 py-2 text-base font-medium transition-colors"
+                className="block w-full text-gray-300 hover:text-white px-4 py-2 rounded-lg text-base font-medium transition-colors text-center"
               >
                 {item.name}
               </a>
             ))}
-            <button className="w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-base font-medium transition-colors mt-4">
+            <a
+              href="/AiContentGenerator"
+              className="block w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-base font-medium transition-colors mt-4 text-center cursor-pointer"
+            >
               Get Started
-            </button>
+            </a>
           </div>
         </div>
       )}
