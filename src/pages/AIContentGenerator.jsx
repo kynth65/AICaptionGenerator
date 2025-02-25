@@ -7,11 +7,8 @@ import { Sparkles, Copy, RotateCcw, Check } from "lucide-react";
 import OpenAI from "openai";
 
 // Initialize OpenAI client
-const apiKey =
-  import.meta.env.VITE_OPENAI_API_KEY || import.meta.env.VITE_API_KEY;
-
 const openai = new OpenAI({
-  apiKey: apiKey,
+  apiKey: import.meta.env.VITE_OPENAI_API_KEY,
   dangerouslyAllowBrowser: true,
 });
 
