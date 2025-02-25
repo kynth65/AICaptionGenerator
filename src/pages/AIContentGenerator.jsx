@@ -7,9 +7,12 @@ import { Sparkles, Copy, RotateCcw, Check } from "lucide-react";
 import OpenAI from "openai";
 
 // Initialize OpenAI client
+const apiKey =
+  import.meta.env.VITE_OPENAI_API_KEY || import.meta.env.VITE_API_KEY;
+
 const openai = new OpenAI({
-  apiKey: import.meta.env.VITE_API_KEY || import.meta.env.OPENAI_API_KEY,
-  dangerouslyAllowBrowser: true, // Required for client-side usage
+  apiKey: apiKey,
+  dangerouslyAllowBrowser: true,
 });
 
 export default function AIContentGenerator() {
