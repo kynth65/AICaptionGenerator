@@ -115,18 +115,8 @@ export default function AIContentGenerator() {
       <Navbar />
 
       {/* Logo with home link */}
-      <div className="absolute top-5 left-5 z-20">
-        <a href="/" className="no-underline">
-          <div className="flex-shrink-0 flex items-center">
-            <span className="text-2xl font-semibold text-white flex items-center gap-2">
-              <span className="text-blue-400 text-3xl">*</span>
-              Caption
-            </span>
-          </div>
-        </a>
-      </div>
 
-      <div className="relative z-10 container mx-auto px-4 pt-24 pb-16">
+      <div className="relative z-10 container mx-auto px-4  pb-16">
         <div className="max-w-3xl mx-auto">
           <div className="mb-8 text-center">
             <GradientText
