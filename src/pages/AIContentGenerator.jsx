@@ -17,6 +17,8 @@ export default function AIContentGenerator() {
   const [generatedCaption, setGeneratedCaption] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [style, setStyle] = useState("promotional");
+  const [sentences, setSentences] = useState(3);
+  const [hashtags, setHashtags] = useState(2);
   const [copied, setCopied] = useState(false);
 
   // Styles for the caption generator
@@ -27,6 +29,12 @@ export default function AIContentGenerator() {
     { value: "humorous", label: "Humorous" },
     { value: "inspirational", label: "Inspirational" },
   ];
+
+  // Sentence options
+  const sentenceOptions = [1, 2, 3, 4, 5];
+
+  // Hashtag options
+  const hashtagOptions = [0, 1, 2, 3, 4];
 
   // Generate caption using OpenAI SDK
   const generateCaption = async () => {
@@ -63,7 +71,13 @@ export default function AIContentGenerator() {
             
             Style guide: ${styleInstructions[style]}
             
-            Include related emojis throughout the text. but do not make it super long`,
+            Requirements:
+            - Write exactly ${sentences} sentence(s)
+            - Include ${hashtags} relevant hashtag(s) at the end${
+              hashtags === 0 ? " (no hashtags)" : ""
+            }
+            - Include related emojis throughout the text
+            `,
           },
         ],
       });
@@ -139,18 +153,52 @@ export default function AIContentGenerator() {
           </p>
 
           <div className="bg-black/30 backdrop-blur-xl rounded-2xl p-6 border border-white/10 mb-8">
-            <label className="block text-white mb-2">Select Style:</label>
-            <select
-              className="w-full bg-black/50 text-white rounded-lg p-3 border border-white/10 mb-4"
-              value={style}
-              onChange={(e) => setStyle(e.target.value)}
-            >
-              {captionStyles.map((style) => (
-                <option key={style.value} value={style.value}>
-                  {style.label}
-                </option>
-              ))}
-            </select>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+              <div>
+                <label className="block text-white mb-2">Style:</label>
+                <select
+                  className="w-full bg-black/50 text-white rounded-lg p-3 border border-white/10"
+                  value={style}
+                  onChange={(e) => setStyle(e.target.value)}
+                >
+                  {captionStyles.map((style) => (
+                    <option key={style.value} value={style.value}>
+                      {style.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-white mb-2">Sentences:</label>
+                <select
+                  className="w-full bg-black/50 text-white rounded-lg p-3 border border-white/10"
+                  value={sentences}
+                  onChange={(e) => setSentences(Number(e.target.value))}
+                >
+                  {sentenceOptions.map((option) => (
+                    <option key={option} value={option}>
+                      {option} {option === 1 ? "sentence" : "sentences"}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-white mb-2">Hashtags:</label>
+                <select
+                  className="w-full bg-black/50 text-white rounded-lg p-3 border border-white/10"
+                  value={hashtags}
+                  onChange={(e) => setHashtags(Number(e.target.value))}
+                >
+                  {hashtagOptions.map((option) => (
+                    <option key={option} value={option}>
+                      {option} {option === 1 ? "hashtag" : "hashtags"}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
 
             <label className="block text-white mb-2">Your Content:</label>
             <textarea
